@@ -4,16 +4,14 @@ import com.bookstore.jvbookstore.dto.BookDto;
 import com.bookstore.jvbookstore.dto.CreateBookRequestDto;
 import com.bookstore.jvbookstore.exception.EntityNotFoundException;
 import com.bookstore.jvbookstore.mapper.BookDtoMapper;
-import com.bookstore.jvbookstore.model.Book;
 import com.bookstore.jvbookstore.repository.BookRepository;
 import com.bookstore.jvbookstore.service.BookService;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
-import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Data
+@RequiredArgsConstructor
 @Service
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
@@ -33,10 +31,9 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto getById(Long id) {
-        Optional<Book> book = bookRepository.findById(id);
-        if (book.isPresent()) {
-            return bookDtoMapper.toDto(book.get());
-        }
-        throw new EntityNotFoundException("Can't get book with id: " + id);
+        return bookRepository.findById(id)
+                .map(bookDtoMapper::toDto)
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Can't get book with id: " + id));
     }
 }
