@@ -1,36 +1,32 @@
 package com.bookstore.jvbookstore.repository;
 
 import com.bookstore.jvbookstore.exception.DataProcessingException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityTransaction;
 
-public abstract class AbstractRepository<T> implements GenericRepository<T> {
-    protected final SessionFactory sessionFactory;
+public class AbstractRepository<T> implements GenericRepository<T> {
+    protected final EntityManagerFactory entityManagerFactory;
 
-    public AbstractRepository(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
+    public AbstractRepository(EntityManagerFactory entityManagerFactory) {
+        this.entityManagerFactory = entityManagerFactory;
     }
 
+    @Override
     public T save(T entity) {
-        Session session = null;
-        Transaction transaction = null;
-        try {
-            session = sessionFactory.openSession();
-            transaction = session.beginTransaction();
-            session.persist(entity);
+        EntityTransaction transaction = null;
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
+            transaction = entityManager.getTransaction();
+            transaction.begin();
+            entityManager.persist(entity);
             transaction.commit();
             return entity;
         } catch (Exception e) {
-            if (transaction != null) {
+            if (transaction != null && transaction.isActive()) {
                 transaction.rollback();
             }
             throw new DataProcessingException("Can't insert " + entity.getClass().getSimpleName()
-                    + " :" + entity, e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
+            + ": " + entity, e);
         }
     }
 }
