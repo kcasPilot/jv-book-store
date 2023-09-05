@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+      id: 02-load-mock-data
+      author: dev-book-store
+      changes:
+        - loadData:
+            tableName: books
+            separator: ;
+            file: db/changelog/changes/mock/mock_data_table_books.csv
+            encoding: UTF-8
+            columns:
+              - column:
+                  header: title
+                  name: title
+                  type: string
+              - column:
+                  header: author
+                  name: author
+                  type: string
+              - column:
+                  header: isbn
+                  name: isbn
+                  type: string
+              - column:
+                  header: price
+                  name: price
+                  type: decimal
+              - column:
+                  header: description
+                  name: description
+                  type: string
+              - column:
+                  header: cover_image
+                  name: cover_image
+                  type: string

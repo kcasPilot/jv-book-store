@@ -1,0 +1,7 @@
+title;author;isbn;price;description;cover_image
+Robinson Crusoe;Daniel Defoe;9780141439822;10.00  ;Robinson Crusoe description;http://example.com/cover1.jpg
+Fairy Tale;Stephen King;9781668002179;16.50  ;Fairy Tale description;http://example.com/cover2.jpg
+Frankenstein ;Mary Shelley;9781435172548;18.00  ;Frankenstein description;http://example.com/cover3.jpg
+The Count of Monte Cristo;Alexandre Dumas;9780140449266;13.99  ;The Count of Monte Cristo description;http://example.com/cover4.jpg
+The Scarlet Letter;Nathaniel Hawthorne;9781435171602;7.99  ;The Scarlet Letter description;http://example.com/cover5.jpg
+Gone with the Wind;Margaret Mitchell;9789358045284;46.50  ;Gone with the Wind description;http://example.com/cover6.jpg
